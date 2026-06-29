@@ -10,21 +10,22 @@ POST {{URL}}/nuevo_usuario
 Content-Type: application/json
 
 {
-    "nombre": "Juan",
-    "apellido": "Perez",
-    "provincia": "Buenos Aires"
+    "nombre": "Pedro",
+    "apellido": "Salamanca",
+    "provincia": "jujuy"
 }
 
 
 ###
 # Actualizar usuario con id=1
-PUT {{URL}}/actualizar_usuario/1
+PUT {{URL}}/actualizar_usuario/3
 Content-Type: application/json
 
 {
-    "nom": "Juan Actualizado"
+    "nom": "Juan Actualizado",
+    "ape": "Tancamon actualizado"
 }
 
 ###
 # Eliminar usuario con id=1
-DELETE {{URL}}/eliminar_usuario/1
+DELETE {{URL}}/eliminar_usuario/2

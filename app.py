@@ -23,17 +23,17 @@ mysql = MySQL(app)
 CORS(app)
 
 
-@app.route("/nuevo_usuario", methods=["POST"])
+@app.route("/registrar_usuario", methods=["POST"])
 @cross_origin()
-def insertar_usuario():
+def ingresar_usuario():
     nombre = request.json["nombre"]
-    apellido = request.json["apellido"]
-    provincia = request.json["provincia"]
+    contraseña = request.json["contraseña"]
+    email = request.json["email"]
 
     cursor = mysql.connection.cursor()
 
-    sql = "INSERT INTO Usuarios(nombre, apellido, provincia) values(%s, %s, %s);"
-    cursor.execute(sql, (nombre, apellido, provincia))
+    sql = "INSERT INTO Usuarios(nombre, contraseña, email) values(%s, %s, %s);"
+    cursor.execute(sql, (nombre, contraseña, email))
 
 
     mysql.connection.commit()
@@ -44,11 +44,11 @@ def insertar_usuario():
     response = jsonify({"resultado":"Agregado nuevo usuario"})
     return response
 
-@app.route("/traer_usuarios", methods=["GET"])
+@app.route("/iniciar_sesion", methods=["GET"])
 @cross_origin()
-def listar_jugadores():
+def inicio_de_sesion():
     #consulta SQL
-    sql = "SELECT idUsuarios, nombre, apellido, provincia FROM Usuarios"
+    sql = "SELECT idUsuarios, nombre, contraseña, email FROM Usuarios"
 
     #crear el cursor
     cursor = mysql.connection.cursor()#mysql.connect.cursor()
@@ -68,7 +68,61 @@ def listar_jugadores():
 
         for i in resultado:
 
-            p = {"id":i[0], "nombre":i[1], "apellido":i[2], "provincia":i[3]}
+            p = {"id":i[0], "nombre":i[1], "contraseña":i[2], "email":i[3]}
+            usuarios.append(p)
+
+        return jsonify(usuarios)
+
+
+@app.route("/subir_receta", methods=["POST"])
+@cross_origin()
+def crear_receta():
+    id_receta= request.json["id_receta"] 
+    nombre = request.json["nombre"]  
+    img = request.json["img"]
+    ingredientes = request.json["ingredientes"]
+    pasos_a_seguir = request.json["pasos_a_seguir"]
+  
+
+    cursor = mysql.connection.cursor()
+
+    sql = "INSERT INTO Usuarios(id_receta, nombre, img, ingredientes, pasos_a_seguir) values(%s, %s, %s, %s, %s);"
+    cursor.execute(sql, (id_receta, nombre, img, ingredientes, pasos_a_seguir))
+
+
+    mysql.connection.commit()
+
+    cursor.close()
+    response = make_response()
+
+    response = jsonify({"resultado":"Agregado nuevo usuario"})
+    return response
+
+@app.route("/traer_receta", methods=["GET"])
+@cross_origin()
+def mostrar_receta():
+    #consulta SQL
+    sql = "SELECT id_receta, nombre, img, ingredientes, pasos_a_seguir FROM Recetas"
+
+    #crear el cursor
+    cursor = mysql.connection.cursor()#mysql.connect.cursor()
+    cursor.execute(sql)
+
+    resultado = cursor.fetchall()
+
+    #cerrar la conexión
+    cursor.close()
+    response = make_response()
+
+    if resultado == None:
+        response = jsonify({"mensaje":None})
+        return response
+    else:
+        usuarios = []
+
+        for i in resultado:
+
+            p = {"id":i[0], "nombre":i[1], "contraseña":i[2], "email":i[3]}
             usuarios.append(p)
 
         return jsonify(usuarios)
@@ -99,12 +153,13 @@ def eliminar_usuario(id):
 @app.route("/actualizar_usuario/<id>", methods=["PUT"])
 def actualizar_usuario(id):
     nombre = request.json["nom"]
+    apellido = request.json["ape"]
 
-    sql = "UPDATE Usuarios SET nombre=%s WHERE idUsuarios=%s"
+    sql = "UPDATE Usuarios SET nombre=%s,apellido=%s WHERE idUsuarios=%s"
 
     #crear el cursor
     cursor = mysql.connection.cursor()
-    cursor.execute(sql, (nombre, id))
+    cursor.execute(sql, (nombre,apellido,id))
     mysql.connection.commit()
 
 
