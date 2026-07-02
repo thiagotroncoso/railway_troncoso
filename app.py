@@ -254,36 +254,6 @@ def crear_receta():
     response = jsonify({"resultado":" Se agrego una nueva receta"})
     return response
 
-@app.route("/traer_receta", methods=["GET"])
-@cross_origin()
-def mostrar_receta():
-    #consulta SQL
-    sql = "SELECT id_receta, nombre, img, ingredientes, pasos_a_seguir FROM publicacion"
-
-    #crear el cursor
-    cursor = mysql.connection.cursor()#mysql.connect.cursor()
-    cursor.execute(sql)
-
-    resultado = cursor.fetchall()
-
-    #cerrar la conexión
-    cursor.close()
-    response = make_response()
-
-    if resultado == None:
-        response = jsonify({"mensaje":None})
-        return response
-    else:
-        usuarios = []
-
-        for i in resultado:
-
-            p = {"id":i[0], "nombre":i[1], "contraseña":i[2], "email":i[3]}
-            usuarios.append(p)
-
-        return jsonify(usuarios)
-
-
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
