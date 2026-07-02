@@ -37,7 +37,7 @@ def ingresar_usuario():
 
 
     mysql.connection.commit()
-
+ 
     cursor.close()
     response = make_response()
 
@@ -95,7 +95,7 @@ def crear_receta():
     cursor.close()
     response = make_response()
 
-    response = jsonify({"resultado":"Agregado nuevo usuario"})
+    response = jsonify({"resultado":" Se agrego una nueva receta"})
     return response
 
 @app.route("/traer_receta", methods=["GET"])

@@ -6,13 +6,13 @@ GET {{URL}}/traer_usuarios
 
 ###
 # Crear usuario
-POST {{URL}}/nuevo_usuario
+POST {{URL}}/registrar_usuario
 Content-Type: application/json
 
 {
     "nombre": "Pedro",
-    "apellido": "Salamanca",
-    "provincia": "jujuy"
+    "contraseña": "carlitos.34",
+    "email": "carlitos.juarez@gmail.com"
 }
 
 
