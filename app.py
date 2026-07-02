@@ -44,15 +44,17 @@ def ingresar_usuario():
     response = jsonify({"resultado":"Agregado nuevo usuario"})
     return response
 
-@app.route("/iniciar_sesion", methods=["GET"])
+@app.route("/iniciar_sesion", methods=["POST"])
 @cross_origin()
 def inicio_de_sesion():
+    email= request.json["email"] 
+    clave = request.json["clave"]  
     #consulta SQL
-    sql = "SELECT idUsuarios, nombre, contraseña, email FROM Usuarios"
+    sql = "SELECT idusuario, nombre, email FROM usuario WHERE email=%s AND contraseña=%s"
 
     #crear el cursor
     cursor = mysql.connection.cursor()#mysql.connect.cursor()
-    cursor.execute(sql)
+    cursor.execute(sql, (email, clave))
 
     resultado = cursor.fetchall()
 
@@ -68,7 +70,7 @@ def inicio_de_sesion():
 
         for i in resultado:
 
-            p = {"id":i[0], "nombre":i[1], "contraseña":i[2], "email":i[3]}
+            p = {"id":i[0], "nombre":i[1], "email":i[2]}
             usuarios.append(p)
 
         return jsonify(usuarios)
@@ -169,6 +171,118 @@ def actualizar_usuario(id):
 
     response = jsonify({"resultado":"Usuario no activo"})
     return response
+
+
+###################################################################
+
+#PROYECTO
+
+@app.route("/registrar_usuario", methods=["POST"])
+@cross_origin()
+def ingresar_usuario():
+    nombre = request.json["nombre"]
+    contraseña = request.json["contraseña"]
+    email = request.json["email"]
+
+    cursor = mysql.connection.cursor()
+
+    sql = "INSERT INTO usuario(nombre, contraseña, email) values(%s, %s, %s);"
+    cursor.execute(sql, (nombre, contraseña, email))
+
+
+    mysql.connection.commit()
+ 
+    cursor.close()
+    response = make_response()
+
+    response = jsonify({"resultado":"Agregado nuevo usuario"})
+    return response
+
+@app.route("/iniciar_sesion", methods=["POST"])
+@cross_origin()
+def inicio_de_sesion():
+    email= request.json["email"] 
+    clave = request.json["clave"]  
+    #consulta SQL
+    sql = "SELECT idusuario, nombre, email FROM usuario WHERE email=%s AND contraseña=%s"
+
+    #crear el cursor
+    cursor = mysql.connection.cursor()#mysql.connect.cursor()
+    cursor.execute(sql, (email, clave))
+
+    resultado = cursor.fetchall()
+
+    #cerrar la conexión
+    cursor.close()
+    response = make_response()
+
+    if resultado == None:
+        response = jsonify({"mensaje":None})
+        return response
+    else:
+        usuarios = []
+
+        for i in resultado:
+
+            p = {"id":i[0], "nombre":i[1], "email":i[2]}
+            usuarios.append(p)
+
+        return jsonify(usuarios)
+
+
+@app.route("/subir_receta", methods=["POST"])
+@cross_origin()
+def crear_receta():
+    id_receta= request.json["id_receta"] 
+    nombre = request.json["nombre"]  
+    img = request.json["img"]
+    ingredientes = request.json["ingredientes"]
+    pasos_a_seguir = request.json["pasos_a_seguir"]
+  
+
+    cursor = mysql.connection.cursor()
+
+    sql = "INSERT INTO publicacion(id_receta, nombre, img, ingredientes, pasos_a_seguir) values(%s, %s, %s, %s, %s);"
+    cursor.execute(sql, (id_receta, nombre, img, ingredientes, pasos_a_seguir))
+
+
+    mysql.connection.commit()
+
+    cursor.close()
+    response = make_response()
+
+    response = jsonify({"resultado":" Se agrego una nueva receta"})
+    return response
+
+@app.route("/traer_receta", methods=["GET"])
+@cross_origin()
+def mostrar_receta():
+    #consulta SQL
+    sql = "SELECT id_receta, nombre, img, ingredientes, pasos_a_seguir FROM publicacion"
+
+    #crear el cursor
+    cursor = mysql.connection.cursor()#mysql.connect.cursor()
+    cursor.execute(sql)
+
+    resultado = cursor.fetchall()
+
+    #cerrar la conexión
+    cursor.close()
+    response = make_response()
+
+    if resultado == None:
+        response = jsonify({"mensaje":None})
+        return response
+    else:
+        usuarios = []
+
+        for i in resultado:
+
+            p = {"id":i[0], "nombre":i[1], "contraseña":i[2], "email":i[3]}
+            usuarios.append(p)
+
+        return jsonify(usuarios)
+
 
 
 if __name__ == "__main__":
