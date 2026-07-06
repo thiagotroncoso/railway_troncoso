@@ -40,11 +40,11 @@ GET {{URL}}/traer_usuario
 
 ###
 # Crear usuario
-POST {{URL}}/registrar_usuario
+POST {{URL}}/nuevo_usuario
 Content-Type: application/json
 
 {
     "nombre": "Pedro",
-    "clave": "carlitos.34",
-    "email": "carlitos.juarez@gmail.com"
+    "email": "carlitos.juarez@gmail.com",
+    "fecha_nac": "09-09-2004"
 }

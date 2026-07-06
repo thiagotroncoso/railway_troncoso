@@ -156,11 +156,11 @@ def traer_usuario():
 def nuevo_usuario():
     nombre = request.json["nombre"]
     email = request.json["email"]
-
+    fecha = request.json["fecha_nac"]
     cursor = mysql.connection.cursor()
 
-    sql = "INSERT INTO usuario(nombre, email) values(%s, %s);"
-    cursor.execute(sql, (nombre, email))
+    sql = "INSERT INTO usuario(nombre, email, fechaNacimiento) values(%s, %s, %s);"
+    cursor.execute(sql, (nombre, email, fecha))
 
 
     mysql.connection.commit()
