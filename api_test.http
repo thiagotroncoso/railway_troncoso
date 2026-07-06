@@ -29,3 +29,22 @@ Content-Type: application/json
 ###
 # Eliminar usuario con id=1
 DELETE {{URL}}/eliminar_usuario/2
+
+
+###################################
+#proyecto
+
+###
+# Obtener todos los usuarios
+GET {{URL}}/traer_usuario
+
+###
+# Crear usuario
+POST {{URL}}/registrar_usuario
+Content-Type: application/json
+
+{
+    "nombre": "Pedro",
+    "clave": "carlitos.34",
+    "email": "carlitos.juarez@gmail.com"
+}

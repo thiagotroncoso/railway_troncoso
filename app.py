@@ -125,7 +125,7 @@ def actualizar_usuario(id):
 @cross_origin()
 def traer_usuario():
     #consulta SQL
-    sql = "SELECT idUsuarios, email, nombre FROM usuario"
+    sql = "SELECT idusuario, email, nombre FROM usuario"
 
     #crear el cursor
     cursor = mysql.connect.cursor()#mysql.connect.cursor()
