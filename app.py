@@ -173,7 +173,7 @@ def nuevo_usuario():
 
 @cross_origin
 @app.route("/eliminar_usuarios/<id>", methods=["DELETE"])
-def eliminar_usuario(id):
+def eliminar_usuarios(id):
 
     sql = "DELETE FROM usuario WHERE idusuario=%s"
 
