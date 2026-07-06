@@ -46,5 +46,5 @@ Content-Type: application/json
 {
     "nombre": "Pedro",
     "email": "carlitos.juarez@gmail.com",
-    "fecha_nac": "09-09-2004"
+    "fecha_nac": "2004-09-15"
 }

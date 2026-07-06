@@ -125,7 +125,7 @@ def actualizar_usuario(id):
 @cross_origin()
 def traer_usuario():
     #consulta SQL
-    sql = "SELECT idusuario, email, nombre FROM usuario"
+    sql = "SELECT idusuario, email, nombre, fechaNacimiento FROM usuario"
 
     #crear el cursor
     cursor = mysql.connect.cursor()#mysql.connect.cursor()
@@ -145,7 +145,7 @@ def traer_usuario():
 
         for i in resultado:
 
-            p = {"id":i[0], "email":i[1], "nombre":i[2]}
+            p = {"id":i[0], "email":i[1], "nombre":i[2], "fechaNacimineto":i[2]}
             usuarios.append(p)
 
         return jsonify(usuarios)
