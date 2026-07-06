@@ -216,39 +216,6 @@ def nueva_publicacion():
     response = jsonify({"resultado":"Publicacion agregada correctamente"})
     return response
 
-@app.route("/consulta_publicacion", methods=["GET"])
-@cross_origin()
-def consulta_publicacion():
-    cursor = mysql.connection.cursor()
-
-    sql = "SELECT idpublicacion, usuario_idusuario, nombre, imagenes, tiempo, ingredientes, receta, likes, dislikes, cantidadComentarios FROM publicacion;"
-    cursor.execute(sql)
-    datos = cursor.fetchall()
-
-    cursor.close()
-    response = make_response()
-
-    response = jsonify(datos)
-    return response
-
-
-@app.route("/consulta_publicacion/<id>", methods=["GET"])
-@cross_origin()
-def consulta_publicacion_por_id(id):
-    cursor = mysql.connection.cursor()
-
-    sql = "SELECT idpublicacion, usuario_idusuario, nombre, imagenes, tiempo, ingredientes, receta, likes, dislikes, cantidadComentarios FROM publicacion WHERE idpublicacion = %s;"
-    cursor.execute(sql, (id,))
-    datos = cursor.fetchall()
-
-    cursor.close()
-    response = make_response()
-
-    response = jsonify(datos)
-    return response
-
-
-
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
