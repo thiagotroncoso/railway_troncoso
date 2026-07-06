@@ -191,7 +191,61 @@ def eliminar_usuarios(id):
     response = jsonify({"resultado":"Usuario eliminado"})
     return response
 
+@app.route("/nueva_publicacion", methods=["POST"])
+@cross_origin()
+def nueva_publicacion():
+    usuario_idusuario = request.json["usuario_idusuario"]
+    nombre = request.json["nombre"]
+    imagenes = request.json["imagenes"]
+    tiempo = request.json["tiempo"]
+    ingredientes = request.json["ingredientes"]
+    receta = request.json["receta"]
+    likes = request.json["likes"]
+    dislikes = request.json["dislikes"]
+    cantidadComentarios = request.json["cantidadComentarios"]
+    cursor = mysql.connection.cursor()
 
+    sql = "INSERT INTO publicacion(usuario_idusuario, nombre, imagenes, tiempo, ingredientes, receta, likes, dislikes, cantidadComentarios) values(%s, %s, %s, %s, %s, %s, %s, %s, %s);"
+    cursor.execute(sql, (usuario_idusuario, nombre, imagenes, tiempo, ingredientes, receta, likes, dislikes, cantidadComentarios))
+
+    mysql.connection.commit()
+
+    cursor.close()
+    response = make_response()
+
+    response = jsonify({"resultado":"Publicacion agregada correctamente"})
+    return response
+
+@app.route("/consulta_publicacion", methods=["GET"])
+@cross_origin()
+def consulta_publicacion():
+    cursor = mysql.connection.cursor()
+
+    sql = "SELECT idpublicacion, usuario_idusuario, nombre, imagenes, tiempo, ingredientes, receta, likes, dislikes, cantidadComentarios FROM publicacion;"
+    cursor.execute(sql)
+    datos = cursor.fetchall()
+
+    cursor.close()
+    response = make_response()
+
+    response = jsonify(datos)
+    return response
+
+
+@app.route("/consulta_publicacion/<id>", methods=["GET"])
+@cross_origin()
+def consulta_publicacion_por_id(id):
+    cursor = mysql.connection.cursor()
+
+    sql = "SELECT idpublicacion, usuario_idusuario, nombre, imagenes, tiempo, ingredientes, receta, likes, dislikes, cantidadComentarios FROM publicacion WHERE idpublicacion = %s;"
+    cursor.execute(sql, (id,))
+    datos = cursor.fetchall()
+
+    cursor.close()
+    response = make_response()
+
+    response = jsonify(datos)
+    return response
 
 
 

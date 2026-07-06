@@ -28,7 +28,7 @@ Content-Type: application/json
 
 ###
 # Eliminar usuario con id=1
-DELETE {{URL}}/eliminar_usuarios/2
+DELETE {{URL}}/eliminar_usuario/2
 
 
 ###################################
@@ -48,3 +48,37 @@ Content-Type: application/json
     "email": "carlitos.juarez@gmail.com",
     "fecha_nac": "2004-09-15"
 }
+
+###
+# Eliminar usuario con id=1
+DELETE {{URL}}/eliminar_usuarios/3
+
+###
+# Obtener todas las publicaciones
+Send Request
+GET {{URL}}/consulta_publicacion
+
+###
+# Obtener una publicacion por id
+Send Request
+GET {{URL}}/consulta_publicacion/1
+
+###
+# Crear publicacion
+Send Request
+POST {{URL}}/nueva_publicacion
+Content-Type: application/json
+
+{
+    "usuario_idusuario": 1,
+    "nombre": "Milanesa napolitana",
+    "imagenes": "milanesa.jpg",
+    "tiempo": 45,
+    "ingredientes": "carne, pan rallado, huevo, queso, salsa de tomate",
+    "receta": "Empanar la carne, freir, agregar salsa y queso, gratinar al horno"
+}
+
+###
+# Eliminar publicacion con id=1
+Send Request
+DELETE {{URL}}/eliminar_publicacion/1
