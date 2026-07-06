@@ -149,6 +149,28 @@ def traer_usuario():
             usuarios.append(p)
 
         return jsonify(usuarios)
+    
+
+@app.route("/nuevo_usuario", methods=["POST"])
+@cross_origin()
+def nuevo_usuario():
+    nombre = request.json["nombre"]
+    email = request.json["email"]
+
+    cursor = mysql.connection.cursor()
+
+    sql = "INSERT INTO usuario(nombre, email) values(%s, %s);"
+    cursor.execute(sql, (nombre, email))
+
+
+    mysql.connection.commit()
+ 
+    cursor.close()
+    response = make_response()
+
+    response = jsonify({"resultado":"Agregado nuevo usuario"})
+    return response
+
 
 
 
