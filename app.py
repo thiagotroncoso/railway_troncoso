@@ -145,7 +145,7 @@ def traer_usuario():
 
         for i in resultado:
 
-            p = {"id":i[0], "email":i[1], "nombre":i[2], "fechaNacimineto":i[2]}
+            p = {"id":i[0], "email":i[1], "nombre":i[2], "fechaNacimineto":i[3]}
             usuarios.append(p)
 
         return jsonify(usuarios)
