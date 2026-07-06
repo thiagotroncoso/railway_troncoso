@@ -171,6 +171,27 @@ def nuevo_usuario():
     response = jsonify({"resultado":"Agregado nuevo usuario"})
     return response
 
+@cross_origin
+@app.route("/eliminar_usuarios/<id>", methods=["DELETE"])
+def eliminar_usuario(id):
+
+    sql = "DELETE FROM usuario WHERE idusuario=%s"
+
+    #crear el cursor
+    cursor = mysql.connection.cursor()
+    cursor.execute(sql, (id,))
+
+    mysql.connection.commit()
+
+    #cerrar la conexión
+    cursor.close()
+    response = make_response()
+
+
+    response = jsonify({"resultado":"Usuario eliminado"})
+    return response
+
+
 
 
 

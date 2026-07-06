@@ -28,7 +28,7 @@ Content-Type: application/json
 
 ###
 # Eliminar usuario con id=1
-DELETE {{URL}}/eliminar_usuario/2
+DELETE {{URL}}/eliminar_usuarios/2
 
 
 ###################################
