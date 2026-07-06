@@ -92,27 +92,6 @@ def actualizar_usuario(id):
 
 #PROYECTO
 
-@app.route("/registrar_usuario", methods=["POST"])
-@cross_origin()
-def ingresar_usuario():
-    nombre = request.json["nombre"]
-    clave = request.json["clave"]
-    email = request.json["email"]
-
-    cursor = mysql.connection.cursor()
-
-    sql = "INSERT INTO usuario(nombre, contraseña, email) values(%s, %s, %s);"
-    cursor.execute(sql, (nombre, clave, email))
-
-
-    mysql.connection.commit()
- 
-    cursor.close()
-    response = make_response()
-
-    response = jsonify({"resultado":"Agregado nuevo usuario"})
-    return response
-
 @app.route("/traer_usuarios", methods=["GET"])
 @cross_origin()
 def traer_usuarios():
