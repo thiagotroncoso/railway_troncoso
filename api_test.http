@@ -64,7 +64,6 @@ Send Request
 GET {{URL}}/consulta_publicacion/1
 
 ###
-# Crear publicacion
 Send Request
 POST {{URL}}/nueva_publicacion
 Content-Type: application/json

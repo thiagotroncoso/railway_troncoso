@@ -26,7 +26,7 @@ CORS(app)
 @cross_origin()
 def traer_usuarios():
     #consulta SQL
-    sql = "SELECT idUsuarios, email, nombre FROM Usuarios"
+    sql = "SELECT idUsuarios,provincia, nombre FROM Usuarios"
 
     #crear el cursor
     cursor = mysql.connect.cursor()#mysql.connect.cursor()
