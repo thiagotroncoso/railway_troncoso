@@ -22,6 +22,35 @@ mysql = MySQL(app)
 
 CORS(app)
 
+@app.route("/traer_usuarios", methods=["GET"])
+@cross_origin()
+def traer_usuarios():
+    #consulta SQL
+    sql = "SELECT idUsuarios, email, nombre FROM Usuarios"
+
+    #crear el cursor
+    cursor = mysql.connect.cursor()#mysql.connect.cursor()
+    cursor.execute(sql)
+
+    resultado = cursor.fetchall()
+
+    #cerrar la conexión
+    cursor.close()
+    response = make_response()
+
+    if resultado == None:
+        response = jsonify({"mensaje":None})
+        return response
+    else:
+        usuarios = []
+
+        for i in resultado:
+
+            p = {"id":i[0], "email":i[1], "nombre":i[2]}
+            usuarios.append(p)
+
+        return jsonify(usuarios)
+
 
 @app.route("/registrar_usuario", methods=["POST"])
 @cross_origin()
@@ -92,11 +121,11 @@ def actualizar_usuario(id):
 
 #PROYECTO
 
-@app.route("/traer_usuarios", methods=["GET"])
+@app.route("/traer_usuario", methods=["GET"])
 @cross_origin()
-def traer_usuarios():
+def traer_usuario():
     #consulta SQL
-    sql = "SELECT idUsuarios, email, nombre FROM Usuarios"
+    sql = "SELECT idUsuarios, email, nombre FROM usuario"
 
     #crear el cursor
     cursor = mysql.connect.cursor()#mysql.connect.cursor()
