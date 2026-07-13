@@ -219,7 +219,7 @@ def nueva_publicacion():
 @cross_origin()
 def mostrar_receta():
     #consulta SQL
-    sql = "SELECT id_receta, nombre, img, ingredientes, pasos_a_seguir FROM Recetas"
+    sql = "SELECT id_receta, nombre, img, ingredientes, pasos_a_seguir FROM publicacion"
 
     #crear el cursor
     cursor = mysql.connection.cursor()
