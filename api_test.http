@@ -53,17 +53,22 @@ Content-Type: application/json
 # Eliminar usuario con id=1
 DELETE {{URL}}/eliminar_usuarios/3
 
+
 ###
-Send Request
 POST {{URL}}/nueva_publicacion
 Content-Type: application/json
 
 {
-    "usuario_idusuario": 1,
+    "usuario_idusuario": 4,
     "nombre": "Milanesa napolitana",
     "imagenes": "milanesa.jpg",
     "tiempo": 45,
     "ingredientes": "carne, pan rallado, huevo, queso, salsa de tomate",
-    "receta": "Empanar la carne, freir, agregar salsa y queso, gratinar al horno"
+    "receta": "Empanar la carne, freir, agregar salsa y queso, gratinar al horno",
+    "likes": 0,
+    "dislikes": 0,
+    "cantidadComentarios": 0
 }
 
+###
+GET {{URL}}/traer_receta

@@ -11,8 +11,6 @@ import os
 
 app = Flask(__name__)
 
-import os
-
 app.config["MYSQL_HOST"] = os.environ.get("DB_HOST")
 app.config["MYSQL_USER"] = os.environ.get("DB_USER")
 app.config["MYSQL_PASSWORD"] = os.environ.get("DB_PASSWORD")
@@ -29,7 +27,7 @@ def traer_usuarios():
     sql = "SELECT idUsuarios,provincia, nombre FROM Usuarios"
 
     #crear el cursor
-    cursor = mysql.connect.cursor()#mysql.connect.cursor()
+    cursor = mysql.connection.cursor()
     cursor.execute(sql)
 
     resultado = cursor.fetchall()
@@ -38,7 +36,7 @@ def traer_usuarios():
     cursor.close()
     response = make_response()
 
-    if resultado == None:
+    if not resultado:
         response = jsonify({"mensaje":None})
         return response
     else:
@@ -74,8 +72,8 @@ def ingresar_usuario():
     return response
 
 
-@cross_origin
 @app.route("/eliminar_usuario/<id>", methods=["DELETE"])
+@cross_origin()
 def eliminar_usuario(id):
 
     sql = "DELETE FROM Usuarios WHERE idUsuarios=%s"
@@ -95,8 +93,8 @@ def eliminar_usuario(id):
     return response
 
 
-@cross_origin
 @app.route("/actualizar_usuario/<id>", methods=["PUT"])
+@cross_origin()
 def actualizar_usuario(id):
     nombre = request.json["nom"]
     apellido = request.json["ape"]
@@ -128,7 +126,7 @@ def traer_usuario():
     sql = "SELECT idusuario, email, nombre, fechaNacimiento FROM usuario"
 
     #crear el cursor
-    cursor = mysql.connect.cursor()#mysql.connect.cursor()
+    cursor = mysql.connection.cursor()
     cursor.execute(sql)
 
     resultado = cursor.fetchall()
@@ -137,7 +135,7 @@ def traer_usuario():
     cursor.close()
     response = make_response()
 
-    if resultado == None:
+    if not resultado:
         response = jsonify({"mensaje":None})
         return response
     else:
@@ -171,8 +169,8 @@ def nuevo_usuario():
     response = jsonify({"resultado":"Agregado nuevo usuario"})
     return response
 
-@cross_origin
 @app.route("/eliminar_usuarios/<id>", methods=["DELETE"])
+@cross_origin()
 def eliminar_usuarios(id):
 
     sql = "DELETE FROM usuario WHERE idusuario=%s"
@@ -203,6 +201,7 @@ def nueva_publicacion():
     likes = request.json["likes"]
     dislikes = request.json["dislikes"]
     cantidadComentarios = request.json["cantidadComentarios"]
+    
     cursor = mysql.connection.cursor()
 
     sql = "INSERT INTO publicacion(usuario_idusuario, nombre, imagenes, tiempo, ingredientes, receta, likes, dislikes, cantidadComentarios) values(%s, %s, %s, %s, %s, %s, %s, %s, %s);"
@@ -215,6 +214,36 @@ def nueva_publicacion():
 
     response = jsonify({"resultado":"Publicacion agregada correctamente"})
     return response
+
+@app.route("/traer_receta", methods=["GET"])
+@cross_origin()
+def mostrar_receta():
+    #consulta SQL
+    sql = "SELECT id_receta, nombre, img, ingredientes, pasos_a_seguir FROM Recetas"
+
+    #crear el cursor
+    cursor = mysql.connection.cursor()
+    cursor.execute(sql)
+
+    resultado = cursor.fetchall()
+
+    #cerrar la conexión
+    cursor.close()
+    response = make_response()
+
+    if not resultado:
+        response = jsonify({"mensaje":None})
+        return response
+    else:
+        recetas = []
+
+        for i in resultado:
+
+            p = {"id":i[0], "nombre":i[1], "img":i[2], "ingredientes":i[3], "pasos_a_seguir":i[4]}
+            recetas.append(p)
+
+        return jsonify(recetas)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
